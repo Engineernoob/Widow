@@ -117,15 +117,16 @@ RUST_LOG=info cargo run -p widow-worker
 
 ```
 
-```
-🧠 Vision Roadmap
+----
+## 🧠 Vision Roadmap
 Phase	Focus	Status
 1. Core Crawler	Fetch → Parse → Embed → Index	✅ Complete
 2. Dockerized System	Qdrant integration + CI	✅ Complete
 3. Widow Dashboard	Frontend visualization + API controls	🔄 In progress
 4. Scheduler	Distributed queue + politeness manager	🧩 Planned
 5. Multi-Node Scaling	Raft-based worker clustering	🧩 Planned
-📘 Documentation
+---
+## 📘 Documentation
 
 All developer documentation lives in /docs :
 
@@ -136,25 +137,25 @@ CONTRIBUTING.md
  — contribution guide
 
 .dot Graphviz diagrams for visual architecture
-```
+---
 
-```🪶 License
+## 🪶 License
 
 Released under the MIT License
 
-© 2025 Taahirah Denmark
-
-⭐ Acknowledgments
+## ⭐ Acknowledgments
 
 Built with inspiration from:
 
-Exa
+- Exa
 
-Qdrant
+- Qdrant
 
-Rustlings
+- Rustlings
 
-Hugging Face Open Source Stack
-```
+- Hugging Face Open Source Stack
+---
 
 > “The web is our collective memory. Widow helps AI remember it.”
+
+© 2025 Taahirah Denmark
