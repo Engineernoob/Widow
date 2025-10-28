@@ -22,6 +22,9 @@ services:
   # ==========================================
   # 🕷️ Widow Worker
   # ==========================================
+  # ==========================================
+  # 🕷️ Widow Worker
+  # ==========================================
   widow-worker:
     build:
       context: .
@@ -36,10 +39,10 @@ services:
     volumes:
       - ./data/crawls:/data
     working_dir: /data
-    # 👇 Waits until Qdrant API responds before starting crawl
+    # 👇 Use curl instead of wget (curl is installed in your Debian runtime)
     command:
       [
         "sh",
         "-c",
-        "until wget -qO- http://qdrant:6333/healthz > /dev/null; do echo '🧠 Waiting for Qdrant...'; sleep 3; done; echo '✅ Qdrant is up! Starting Widow...' && /usr/local/bin/widow-worker",
+        "until curl -sf http://qdrant:6333/healthz > /dev/null; do echo '🧠 Waiting for Qdrant...'; sleep 3; done; echo '✅ Qdrant is up! Starting Widow...' && /usr/local/bin/widow-worker",
       ]
