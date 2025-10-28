@@ -1,7 +1,6 @@
 # ==========================================
 # 🦀 Widow v0.2 — Intelligence Layer
-# Builds widow-worker and runs it inside a minimal container
-# Connects to external Qdrant (via localhost:6334)
+# Builds widow-worker and connects to Qdrant
 # ==========================================
 
 # ---------- Stage 1: Build ----------
@@ -9,34 +8,35 @@ FROM rust:1.82-slim-bookworm AS builder
 
 WORKDIR /app
 
+# --- Install build dependencies for OpenSSL ---
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  pkg-config \
+  libssl-dev \
+  build-essential \
+  ca-certificates \
+  curl && \
+  rm -rf /var/lib/apt/lists/*
+
 # Copy manifest and source
 COPY Cargo.toml ./
 COPY crates ./crates
 
-# Build only the worker crate (release build)
+# Build release binary for widow-worker
 RUN cargo build --release -p widow-worker
 
 # ---------- Stage 2: Runtime ----------
 FROM debian:bookworm-slim
 
-# Install CA certs + minimal dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
   ca-certificates libssl3 curl && \
   rm -rf /var/lib/apt/lists/*
 
-# Copy the widow binary from the builder stage
-COPY --from=builder /app/target/release/widow-worker /usr/local/bin/widow-worker
-
-# Create a working directory for crawl data
 WORKDIR /data
 
-# Expose ports (if you later serve APIs)
-EXPOSE 8080
+# Copy the compiled binary
+COPY --from=builder /app/target/release/widow-worker /usr/local/bin/widow-worker
 
-# Default environment
-ENV QDRANT_URL=http://host.docker.internal:6334 \
-  RUST_LOG=info \
-  WIDOW_MODE=worker
+ENV QDRANT_URL=http://qdrant:6334 \
+  RUST_LOG=info
 
-# Run Widow
 CMD ["/usr/local/bin/widow-worker"]
