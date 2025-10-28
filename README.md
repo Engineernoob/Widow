@@ -20,35 +20,38 @@ to build the web’s data layer for the next generation of AI models.
 
 Crawl → Extract → Embed → Index
 
-
 Each phase is modular, written in pure Rust, and can scale horizontally via containers.
 
-| Module | Description | Language / Stack |
-|--------|--------------|------------------|
-| **widow-core** | Shared structs, config, and type system | Rust |
-| **widow-worker** | Main crawling engine — fetches, parses, embeds | Rust (Tokio, Reqwest, Scraper) |
-| **widow-extractor** | HTML & metadata extraction utilities | Rust |
-| **widow-embedder** | Embedding and text vectorization | Rust / HTTP |
-| **Qdrant** | Vector search and similarity backend | Rust + Docker |
-| **widow-dashboard** | *(Phase 3)* Next.js control UI + analytics | Next.js + Supabase (planned) |
+| Module              | Description                                    | Language / Stack               |
+| ------------------- | ---------------------------------------------- | ------------------------------ |
+| **widow-core**      | Shared structs, config, and type system        | Rust                           |
+| **widow-worker**    | Main crawling engine — fetches, parses, embeds | Rust (Tokio, Reqwest, Scraper) |
+| **widow-extractor** | HTML & metadata extraction utilities           | Rust                           |
+| **widow-embedder**  | Embedding and text vectorization               | Rust / HTTP                    |
+| **Qdrant**          | Vector search and similarity backend           | Rust + Docker                  |
+| **widow-dashboard** | _(Phase 3)_ Next.js control UI + analytics     | Next.js + Supabase (planned)   |
 
 ---
 
 ## 🧩 Features
 
 - 🌐 **Massively parallel crawling**
+
   - Asynchronous networking via **Tokio**
   - Configurable concurrency and rate limits
 
 - 🧠 **Text extraction & embedding**
+
   - HTML parsing via **Scraper**
   - Future integration with **local LLM / embedding models**
 
 - 🧱 **Vector indexing with Qdrant**
+
   - Semantic search and document recall
   - Dockerized deployment for local or cloud setups
 
 - ⚙️ **Configurable via `.env`**
+
   - Crawl scope, rate limits, storage path, API endpoints
 
 - 🕸️ **Designed for distributed systems**
@@ -58,20 +61,21 @@ Each phase is modular, written in pure Rust, and can scale horizontally via cont
 
 ## 🧰 Tech Stack
 
-| Layer | Technology |
-|-------|-------------|
-| Language | Rust (2021 Edition) |
-| Core Crates | `tokio`, `reqwest`, `scraper`, `serde`, `anyhow`, `qdrant-client` |
-| Database | [Qdrant VectorDB](https://qdrant.tech) |
-| Containerization | Docker + Compose |
-| Frontend (Phase 3) | Next.js 15 + Tailwind + Supabase |
-| Visualization | Graphviz (for architecture diagrams) |
+| Layer              | Technology                                                        |
+| ------------------ | ----------------------------------------------------------------- |
+| Language           | Rust (2021 Edition)                                               |
+| Core Crates        | `tokio`, `reqwest`, `scraper`, `serde`, `anyhow`, `qdrant-client` |
+| Database           | [Qdrant VectorDB](https://qdrant.tech)                            |
+| Containerization   | Docker + Compose                                                  |
+| Frontend (Phase 3) | Next.js 15 + Tailwind + Supabase                                  |
+| Visualization      | Graphviz (for architecture diagrams)                              |
 
 ---
 
 ## 🧱 Run Locally
 
 ### 1. Clone the Repo
+
 ```bash
 git clone https://github.com/Engineernoob/widow.git
 cd widow
@@ -111,6 +115,9 @@ cargo test --workspace
 Logs
 RUST_LOG=info cargo run -p widow-worker
 
+```
+
+```
 🧠 Vision Roadmap
 Phase	Focus	Status
 1. Core Crawler	Fetch → Parse → Embed → Index	✅ Complete
@@ -120,8 +127,7 @@ Phase	Focus	Status
 5. Multi-Node Scaling	Raft-based worker clustering	🧩 Planned
 📘 Documentation
 
-All developer documentation lives in /docs
-:
+All developer documentation lives in /docs :
 
 README.md
  — developer index
@@ -130,8 +136,9 @@ CONTRIBUTING.md
  — contribution guide
 
 .dot Graphviz diagrams for visual architecture
+```
 
-🪶 License
+```🪶 License
 
 Released under the MIT License
 
@@ -148,5 +155,6 @@ Qdrant
 Rustlings
 
 Hugging Face Open Source Stack
+```
 
-“The web is our collective memory. Widow helps AI remember it.”
+> “The web is our collective memory. Widow helps AI remember it.”
