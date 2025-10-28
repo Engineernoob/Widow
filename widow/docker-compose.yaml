@@ -11,16 +11,13 @@ services:
       - "6334:6334" # gRPC API
     volumes:
       - ./data/qdrant:/qdrant/storage
-    healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "wget --no-verbose --tries=1 --spider http://localhost:6333/healthz || exit 1",
-        ]
-      interval: 10s
-      timeout: 5s
-      retries: 10
-      start_period: 20s
+    # 👇 Healthcheck temporarily removed to avoid false "unhealthy" state
+    # healthcheck:
+    #   test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider 127.0.0.1:6333/healthz || exit 1"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 10
+    #   start_period: 20s
 
   # ==========================================
   # 🕷️ Widow Worker
@@ -31,8 +28,7 @@ services:
       dockerfile: Dockerfile
     container_name: widow-worker
     depends_on:
-      qdrant:
-        condition: service_healthy
+      - qdrant
     environment:
       - QDRANT_URL=http://qdrant:6334
       - RUST_LOG=info
@@ -40,10 +36,10 @@ services:
     volumes:
       - ./data/crawls:/data
     working_dir: /data
-    # Add a short startup delay for stability
+    # 👇 Waits until Qdrant API responds before starting crawl
     command:
       [
         "sh",
         "-c",
-        "echo 'Waiting for Qdrant...' && sleep 5 && /usr/local/bin/widow-worker",
+        "until wget -qO- http://qdrant:6333/healthz > /dev/null; do echo '🧠 Waiting for Qdrant...'; sleep 3; done; echo '✅ Qdrant is up! Starting Widow...' && /usr/local/bin/widow-worker",
       ]
