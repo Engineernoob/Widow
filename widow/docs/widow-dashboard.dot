@@ -1,0 +1,39 @@
+digraph WidowDashboard {
+  rankdir=LR;
+  bgcolor="transparent";
+  node [shape=box, style="rounded,filled", fontname="Lexend,Helvetica", fontsize=12, color="#333333"];
+
+  subgraph cluster_ui {
+    label="💻 Widow Dashboard (Next.js + Supabase)";
+    color="#8b5cf6";
+    fontcolor="#8b5cf6";
+    style="rounded,dashed";
+    ui [label="React UI\n(data + vector search)", fillcolor="#ede9fe"];
+    api [label="Edge Functions / API Routes\n(crawl control + queries)", fillcolor="#ede9fe"];
+    ui -> api;
+  }
+
+  subgraph cluster_backend {
+    label="🕷️ Widow Backend (Rust Containers)";
+    color="#ff66a3";
+    fontcolor="#ff66a3";
+    style="rounded,dashed";
+    crawler [label="widow-worker\n(crawl + embed + store)", fillcolor="#ffe6ef"];
+    scheduler [label="widow-scheduler\n(rate limit + job queue)", fillcolor="#ffe6ef"];
+    crawler -> scheduler [style="dashed", label="future"];
+  }
+
+  subgraph cluster_qdrant {
+    label="🧠 Qdrant VectorDB";
+    color="#66a3ff";
+    fontcolor="#66a3ff";
+    style="rounded,dashed";
+    vector [label="Vector Index + Metadata", fillcolor="#e6f0ff"];
+  }
+
+  api -> crawler [label="Trigger Crawl / Fetch Data", color="#666666"];
+  crawler -> vector [label="Store Embeddings", color="#666666"];
+  ui -> vector [label="Semantic Query", color="#666666"];
+
+  legend [shape=note, label="Full Widow Pipeline:\nUI → API → Crawler → Qdrant → Results", fillcolor="#f7f7f7", color="#cccccc"];
+}
