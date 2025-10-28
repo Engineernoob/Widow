@@ -1,0 +1,32 @@
+digraph WidowArchitecture {
+  rankdir=LR;
+  bgcolor="transparent";
+  node [shape=box, style="rounded,filled", fontname="Lexend,Helvetica", fontsize=12, color="#444444"];
+
+  subgraph cluster_crawler {
+    label="🕷️ Widow Worker (Rust)";
+    color="#ff66a3";
+    style="rounded,dashed";
+    fontcolor="#ff66a3";
+    crawler [label="Async Fetcher\n(reqwest + tokio)", fillcolor="#ffe6ef"];
+    extractor [label="Content Extractor\n(scraper + HTML parser)", fillcolor="#ffe6ef"];
+    embedder [label="Embedder Stub\n(JSON / Model Output)", fillcolor="#ffe6ef"];
+    crawler -> extractor -> embedder;
+  }
+
+  subgraph cluster_qdrant {
+    label="🧠 Qdrant VectorDB (Container)";
+    color="#66a3ff";
+    style="rounded,dashed";
+    fontcolor="#66a3ff";
+    indexer [label="Vector Index\n(points, metadata)", fillcolor="#e6f0ff"];
+    api [label="REST / gRPC API\nlocalhost:6333 / 6334", fillcolor="#e6f0ff"];
+    indexer -> api;
+  }
+
+  embedder -> indexer [label="Insert Vectors", color="#666666", fontcolor="#555555", penwidth=1.3];
+  api -> crawler [label="Query / Healthcheck", style="dotted", color="#999999"];
+
+  // Legend
+  legend [shape=note, label="Data Flow:\n1. Fetch HTML → Extract → Embed\n2. Store vectors in Qdrant\n3. Query embeddings via API", fillcolor="#f7f7f7", color="#cccccc"];
+}
