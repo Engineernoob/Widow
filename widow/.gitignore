@@ -1,0 +1,94 @@
+# ======================
+# 🦀 Rust Build Artifacts
+# ======================
+target/
+Cargo.lock
+**/*.rs.bk
+
+# ======================
+# 🧪 Build, Logs, Dumps
+# ======================
+*.log
+*.tmp
+*.swp
+*.swo
+*.bak
+*.old
+*.out
+*.DS_Store
+
+# ======================
+# 🧠 IDE & Editor Config
+# ======================
+.vscode/
+.idea/
+*.iml
+*.code-workspace
+*.sublime-project
+*.sublime-workspace
+
+# ======================
+# 🧱 Dependencies
+# ======================
+node_modules/
+pnpm-lock.yaml
+yarn.lock
+package-lock.json
+
+# ======================
+# 🧰 OS-specific / External Volumes
+# ======================
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+.AppleDouble
+.fseventsd
+ehthumbs.db
+Thumbs.db
+
+# ======================
+# ⚙️ Environment Files
+# ======================
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env.example
+
+# ======================
+# 🧩 Next.js Dashboard (Future Phase)
+# ======================
+.next/
+out/
+dist/
+.vercel/
+coverage/
+reports/
+
+# ======================
+# 🧱 Docker & Compose
+# ======================
+docker-compose.override.yml
+*.pid
+*.sock
+
+# ======================
+# 🧪 Testing / Cache
+# ======================
+pytest_cache/
+coverage/
+.cache/
+tmp/
+.DS_Store
+
+# ======================
+# 🚀 Widow Project Specific
+# ======================
+scripts/run_local_cluster.sh~
+notes.txt
+benchmarks/
+data/
+crawl_cache/
+crawl_output/

@@ -1,0 +1,16 @@
+[workspace]
+members = [
+    "crates/widow-core",
+    "crates/widow-scheduler",
+    "crates/widow-worker",
+    "crates/widow-embedder",
+    "crates/widow-extractor"
+]
+resolver = "2"
+
+[workspace.package]
+edition = "2021"
+license = "MIT"
+authors = ["Taahirah Denmark <taahirah.engineer@proton.me>"]
+repository = "https://github.com/Engineernoob/widow"
+homepage = "https://widow.dev"
