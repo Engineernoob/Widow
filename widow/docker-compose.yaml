@@ -12,10 +12,12 @@ services:
     volumes:
       - ./data/qdrant:/qdrant/storage
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:6333/healthz"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      # Use CMD-SHELL so curl runs properly in Debian base image
+      test: ["CMD-SHELL", "curl -fs http://localhost:6333/healthz || exit 1"]
+      interval: 10s # check every 10s
+      timeout: 5s # fail if no response after 5s
+      retries: 10 # allow 10 retries
+      start_period: 15s # give Qdrant up to 15s to start
 
   # ==========================================
   # 🕷️ Widow Worker
@@ -35,4 +37,10 @@ services:
     volumes:
       - ./data/crawls:/data
     working_dir: /data
-    command: ["/usr/local/bin/widow-worker"]
+    # Add a short startup delay for stability
+    command:
+      [
+        "sh",
+        "-c",
+        "echo 'Waiting for Qdrant...' && sleep 5 && /usr/local/bin/widow-worker",
+      ]
